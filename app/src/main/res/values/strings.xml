@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Sunshine</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="current_date">Today, March 27</string>
+    <string name="max_tempTxt">25</string>
+    <string name="min_tempTxt">15</string>
+    <string name="city_nameString">Üsküdar,TR</string>
+    <string name="description_String">Clear</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
