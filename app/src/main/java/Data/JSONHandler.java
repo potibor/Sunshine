@@ -44,7 +44,7 @@ public class JSONHandler {
         }
         return weather;
     }
-    public void JSONForecastHandler(JSONObject jsonObject){
+    public Weather JSONForecastHandler(JSONObject jsonObject){
         Weather weather = new Weather(1,1,"","","",0.0,0.0,"","","");
 
         try {
@@ -65,5 +65,6 @@ public class JSONHandler {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return weather;
     }
 }

@@ -109,7 +109,8 @@ public class MainFragment extends Fragment implements LocationListener {
 
         setLocationChangeAction();
         getLastKnownLocation();
-        locations = (ArrayList<Weather>) dbHelper.getWeather();
+
+        locations = dbHelper.getWeather();
         weatherAdapter = new WeatherAdapter(getActivity(),R.layout.location_row,locations);
         weatherList.setAdapter(weatherAdapter);
         index = 0;
@@ -129,6 +130,7 @@ public class MainFragment extends Fragment implements LocationListener {
         weatherList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               // weather = weatherAdapter.getItem(position);
                 DetailsFragment detailsFragment = new DetailsFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_containerId,detailsFragment).addToBackStack(null);
@@ -197,7 +199,7 @@ public class MainFragment extends Fragment implements LocationListener {
             requestPermissions(new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.INTERNET}, 10);
-            return;
+
         } else mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }
 
