@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import Data.DataProvider;
@@ -45,6 +46,7 @@ import Model.WeatherAdapter;
 public class MainFragment extends Fragment implements LocationListener {
 
     private static String DEGREE_ICON = "\u00b0";
+    private int index = 0;
 
     private Location mLocation;
     private LocationManager mLocationManager;
@@ -68,6 +70,8 @@ public class MainFragment extends Fragment implements LocationListener {
     private DataProvider dataProvider;
     private JSONObject jsonObject;
     private MapViewFragment mapViewFragment;
+    private ArrayList<Weather> locations;
+    private  WeatherAdapter weatherAdapter;
 
     public MainFragment() {
     }
@@ -102,12 +106,12 @@ public class MainFragment extends Fragment implements LocationListener {
 
         setLocationChangeAction();
         getLastKnownLocation();
-
-        final ArrayList<Weather> locations = (ArrayList<Weather>) dbHelper.getWeather();
-        final WeatherAdapter weatherAdapter = new WeatherAdapter(getActivity(),R.layout.location_row,locations);
-        weatherAdapter.notifyDataSetChanged();
+        locations = (ArrayList<Weather>) dbHelper.getWeather();
+        weatherAdapter = new WeatherAdapter(getActivity(),R.layout.location_row,locations);
         weatherList.setAdapter(weatherAdapter);
-
+        index = 0;
+        request();
+        weatherAdapter.notifyDataSetChanged();
         getCurrentLocation();
 
         addLocationBtn.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +197,26 @@ public class MainFragment extends Fragment implements LocationListener {
                 }
             }
         };
+    }
+
+    public void request(){
+        if(locations.size() == 0)
+            return;
+        String weatherURl = dataService.getCurrentWeatherData(locations.get(index).getLat(),locations.get(index).getLon());
+        try {
+            jsonObject = new JSONObject(weatherURl);
+            jsonHandler = new JSONHandler();
+            weather = jsonHandler.JSONWeatherHandler(jsonObject);
+            locations.set(index, weather);
+            index ++;
+            if(index < locations.size())
+                request();
+            else
+                weatherAdapter.notifyDataSetChanged();
+
+        }  catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateUI(Weather weather){

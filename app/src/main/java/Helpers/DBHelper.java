@@ -70,6 +70,10 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return weatherArrayList;
     }
+    public void deleteAll(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME +";");
+    }
 
 
 }
