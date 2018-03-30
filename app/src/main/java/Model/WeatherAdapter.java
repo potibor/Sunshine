@@ -71,6 +71,8 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
 
             holder.city_nameHolder = (TextView) row.findViewById(R.id.list_row_cityNameId);
             holder.max_tempHolder = (TextView) row.findViewById(R.id.list_row_tempId);
+            holder.min_tempHolder = (TextView) row.findViewById(R.id.list_row_minTempId);
+            //holder.imageView = (ImageView) row.findViewById(R.id.list_row_weatherImgId);
 
             row.setTag(holder);
         } else {
@@ -78,16 +80,22 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         }
         holder.weather = getItem(position);
         holder.city_nameHolder.setText(holder.weather.getCity_nameTxt());
-        holder.max_tempHolder.setText(holder.weather.getMax_tempTxt());
+        int maxTemp = Integer.valueOf(holder.weather.getMax_tempTxt());
+        int minTemp = Integer.valueOf(holder.weather.getMin_tempTxt());
+        holder.max_tempHolder.setText(Integer.toString(maxTemp));
+        holder.min_tempHolder.setText(Integer.toString(minTemp));
         return row;
     }
 
 
-    class ViewHolder {
+    public class ViewHolder {
+
         Weather weather;
+        int mId;
         TextView city_nameHolder;
         TextView max_tempHolder;
         TextView min_tempHolder;
+        ImageView imageView;
     }
 
 }

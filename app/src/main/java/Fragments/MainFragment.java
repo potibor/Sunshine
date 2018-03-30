@@ -2,7 +2,9 @@ package Fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -16,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -67,11 +70,10 @@ public class MainFragment extends Fragment implements LocationListener {
     private DBHelper dbHelper;
     private JSONHandler jsonHandler;
     private DataService dataService;
-    private DataProvider dataProvider;
     private JSONObject jsonObject;
     private MapViewFragment mapViewFragment;
     private ArrayList<Weather> locations;
-    private  WeatherAdapter weatherAdapter;
+    private WeatherAdapter weatherAdapter;
 
     public MainFragment() {
     }
@@ -111,8 +113,27 @@ public class MainFragment extends Fragment implements LocationListener {
         weatherList.setAdapter(weatherAdapter);
         index = 0;
         request();
-        weatherAdapter.notifyDataSetChanged();
+
         getCurrentLocation();
+
+        weatherList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                deleteListItem(position);
+                weatherAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+        weatherAdapter.notifyDataSetChanged();
+        weatherList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DetailsFragment detailsFragment = new DetailsFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_containerId,detailsFragment).addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
         addLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,9 +241,54 @@ public class MainFragment extends Fragment implements LocationListener {
     }
 
     public void updateUI(Weather weather){
+        int maxTemp = Integer.valueOf(weather.getMax_tempTxt());
+        int minTemp = Integer.valueOf(weather.getMin_tempTxt());
+
         cityNameTxt.setText(weather.getCity_nameTxt() + "," + weather.getCountry_nameTxt());
-        maxTempTxt.setText(weather.getMax_tempTxt() + DEGREE_ICON);
-        minTempTxt.setText(weather.getMin_tempTxt()+ DEGREE_ICON);
+        maxTempTxt.setText(Integer.toString(maxTemp) + DEGREE_ICON);
+        minTempTxt.setText(Integer.toString(minTemp)+ DEGREE_ICON);
         descriptionTxt.setText(weather.getDescriptionTxt());
+    }
+    public void deleteListItem(final int position){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Do you want to delete?");
+        builder.setCancelable(true);
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                builder1.setMessage("Are you sure?");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int mId = locations.get(position).getItemId();
+                        Weather item = locations.get(position);
+                        weatherAdapter.remove(item);
+                        dbHelper.deleteItem(mId);
+                        weatherAdapter.notifyDataSetChanged();
+                        dbHelper.close();
+                        dialog.dismiss();
+                    }
+                });
+                builder1.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog = builder1.create();
+                alertDialog.show();
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
     }
 }

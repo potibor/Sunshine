@@ -1,19 +1,14 @@
 package Fragments;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,14 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.hasanozanal.sunshine.R;
-
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
 import Data.DataService;
 import Data.JSONHandler;
 import Helpers.DBHelper;
@@ -101,6 +89,12 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
                 dbHelper.addWeather(lat,lon);
                 dbHelper.close();
                 dialog.dismiss();
+
+                MainFragment mainFragment = new MainFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_containerId,mainFragment);
+                transaction.commit();
+
             }
         });
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {

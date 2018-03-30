@@ -31,7 +31,7 @@ public class JSONHandler {
             // Wind
             JSONObject windObj = DataProvider.getObject("wind",jsonObject);
             weather.setWindSpeedTxt(DataProvider.getString("speed",windObj));
-            weather.setWindDegTxt(DataProvider.getString("deg",windObj));
+//            weather.setWindDegTxt(DataProvider.getString("deg",windObj));
             // City Name
             weather.setCity_nameTxt(DataProvider.getString("name",jsonObject));
             // Sys

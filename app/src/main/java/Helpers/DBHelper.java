@@ -57,13 +57,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<Weather> getWeather(){
         String SelectQuery = " SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME,new String[]{CITY_LAT,CITY_LON},null,null,null,null,null);
+        Cursor cursor = database.query(TABLE_NAME,new String[]{CITY_LAT,CITY_LON,KEY_ID},null,null,null,null,null);
 
         if (cursor.moveToFirst()){
             do {
                 Weather weather = new Weather();
                 weather.setLat(cursor.getDouble(cursor.getColumnIndex(CITY_LAT)));
                 weather.setLon(cursor.getDouble(cursor.getColumnIndex(CITY_LON)));
+                weather.setItemId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
 
                 weatherArrayList.add(weather);
             }while (cursor.moveToNext());
@@ -73,6 +74,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public void deleteAll(){
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME +";");
+    }
+
+    public void deleteItem(int id){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_NAME , KEY_ID + " =? ",new String[]{String.valueOf(id)});
+        sqLiteDatabase.close();
+        Log.v("success","deleted");
     }
 
 

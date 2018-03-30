@@ -16,6 +16,14 @@ public class Weather {
     private String windSpeedTxt;
     private String windDegTxt;
     private String humidity;
+    private int ItemId;
+
+    public static final String WEATHER_TYPE_CLOUDS = "Clouds";
+    public static final String WEATHER_TYPE_CLEAR = "Clear";
+    public static final String WEATHER_TYPE_RAIN = "Rain";
+    public static final String WEATHER_TYPE_WIND = "Wind";
+    public static final String WEATHER_TYPE_SNOW = "Snow";
+
 
     public Weather() {
     }
@@ -31,6 +39,14 @@ public class Weather {
         this.windSpeedTxt = windSpeedTxt;
         this.windDegTxt = windDegTxt;
         this.humidity = humidity;
+    }
+
+    public int getItemId() {
+        return ItemId;
+    }
+
+    public void setItemId(int itemId) {
+        ItemId = itemId;
     }
 
     public String getMax_tempTxt() {
