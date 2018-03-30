@@ -78,7 +78,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
             userMarker = new MarkerOptions().position(userLocation).title("Current Location");
             mMap.addMarker(userMarker);
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation,45));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation,15));
     }
 
     @Override

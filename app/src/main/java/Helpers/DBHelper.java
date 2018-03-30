@@ -27,6 +27,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CITY_LON = "lon";
     public static final String KEY_ID = "_id";
 
+    private ArrayList<Weather> weatherArrayList = new ArrayList<>();
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME , null, DATABASE_VERSION);
     }
@@ -52,10 +54,22 @@ public class DBHelper extends SQLiteOpenHelper {
         database.insert(TABLE_NAME,null,values);
         database.close();
     }
-    public Cursor getWeather(){
+    public ArrayList<Weather> getWeather(){
         String SelectQuery = " SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.query(TABLE_NAME,new String[]{CITY_LAT,CITY_LON},null,null,null,null,null);
-        return  cursor;
+
+        if (cursor.moveToFirst()){
+            do {
+                Weather weather = new Weather();
+                weather.setLat(cursor.getDouble(cursor.getColumnIndex(CITY_LAT)));
+                weather.setLon(cursor.getDouble(cursor.getColumnIndex(CITY_LON)));
+
+                weatherArrayList.add(weather);
+            }while (cursor.moveToNext());
+        }
+        return weatherArrayList;
     }
+
+
 }

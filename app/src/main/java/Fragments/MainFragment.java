@@ -51,8 +51,6 @@ public class MainFragment extends Fragment implements LocationListener {
     private FusedLocationProviderClient mLocationClient;
     private LocationCallback mLocationCallBack;
     private LocationRequest mLocationRequest;
-    private LocationListener locationListener;
-    private Activity activity = new Activity();
 
     private TextView currentDateTxt;
     private TextView maxTempTxt;
@@ -64,9 +62,9 @@ public class MainFragment extends Fragment implements LocationListener {
     private ListView weatherList;
 
     private Weather weather;
-    private DBHelper dbHelper = new DBHelper(getContext());
+    private DBHelper dbHelper;
     private JSONHandler jsonHandler;
-    private DataService dataService = new DataService();
+    private DataService dataService;
     private DataProvider dataProvider;
     private JSONObject jsonObject;
     private MapViewFragment mapViewFragment;
@@ -96,14 +94,19 @@ public class MainFragment extends Fragment implements LocationListener {
         cityNameTxt = (TextView) view.findViewById(R.id.city_nameTxtId);
         descriptionTxt = (TextView) view.findViewById(R.id.descriptionTxtId);
         imageView =(ImageView) view.findViewById(R.id.currentWeatherImgId);
+        weatherList = (ListView) view.findViewById(R.id.listviewId);
 
+
+        dbHelper = new DBHelper(getActivity());
+        dataService = new DataService();
 
         setLocationChangeAction();
         getLastKnownLocation();
-        //final ArrayList<Weather> locations = (ArrayList<Weather>) dbHelper.getWeather();
-      //  final WeatherAdapter weatherAdapter = new WeatherAdapter(getActivity(),1,locations);
-      //  weatherAdapter.notifyDataSetChanged();
-      //  weatherList.setAdapter(weatherAdapter);
+
+        final ArrayList<Weather> locations = (ArrayList<Weather>) dbHelper.getWeather();
+        final WeatherAdapter weatherAdapter = new WeatherAdapter(getActivity(),R.layout.location_row,locations);
+        weatherAdapter.notifyDataSetChanged();
+        weatherList.setAdapter(weatherAdapter);
 
         getCurrentLocation();
 
@@ -183,7 +186,7 @@ public class MainFragment extends Fragment implements LocationListener {
                 try {
                     jsonObject = new JSONObject(weatherUrl);
                     jsonHandler = new JSONHandler();
-                    Weather weather = jsonHandler.JSONWeatherHandler(jsonObject);
+                    weather = jsonHandler.JSONWeatherHandler(jsonObject);
                     updateUI(weather);
                 }  catch (JSONException e) {
                     e.printStackTrace();
