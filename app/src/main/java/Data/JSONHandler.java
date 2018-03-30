@@ -13,7 +13,7 @@ import Model.Weather;
 public class JSONHandler {
     public Weather JSONWeatherHandler(JSONObject jsonObject) {
 
-        Weather weather = new Weather("","","","","",0.0,0.0,"","","");
+        Weather weather = new Weather(0,0,"","","",0.0,0.0,"","","");
         try {
             // Coordinats
             JSONObject coordObj = DataProvider.getObject("coord",jsonObject);
@@ -25,8 +25,8 @@ public class JSONHandler {
             weather.setDescriptionTxt(DataProvider.getString("main",weatherObj));
             // Main
             JSONObject mainObj = DataProvider.getObject("main",jsonObject);
-            weather.setMax_tempTxt(DataProvider.getString("temp_max",mainObj));
-            weather.setMin_tempTxt(DataProvider.getString("temp_min",mainObj));
+            weather.setMax_tempTxt(DataProvider.getInt("temp_max",mainObj));
+            weather.setMin_tempTxt(DataProvider.getInt("temp_min",mainObj));
             weather.setHumidity(DataProvider.getString("humidity",mainObj));
             // Wind
             JSONObject windObj = DataProvider.getObject("wind",jsonObject);
@@ -45,7 +45,7 @@ public class JSONHandler {
         return weather;
     }
     public void JSONForecastHandler(JSONObject jsonObject){
-        Weather weather = new Weather("0","0","","","",0.0,0.0,"","","");
+        Weather weather = new Weather(1,1,"","","",0.0,0.0,"","","");
 
         try {
             JSONArray listArray = jsonObject.getJSONArray("list");
@@ -54,8 +54,8 @@ public class JSONHandler {
                     // Main
                     JSONObject listArrayJSONObject = listArray.getJSONObject(i);
                     JSONObject mainObj = DataProvider.getObject("main",listArrayJSONObject);
-                    weather.setMax_tempTxt(DataProvider.getString("temp_max",mainObj));
-                    weather.setMin_tempTxt(DataProvider.getString("temp_min",mainObj));
+                    weather.setMax_tempTxt(DataProvider.getInt("temp_max",mainObj));
+                    weather.setMin_tempTxt(DataProvider.getInt("temp_min",mainObj));
 
                     JSONArray weatherArrayObj = listArrayJSONObject.getJSONArray("weather");
                     JSONObject weatherObj = weatherArrayObj.getJSONObject(i);

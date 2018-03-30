@@ -1,6 +1,7 @@
 package Fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -241,12 +242,9 @@ public class MainFragment extends Fragment implements LocationListener {
     }
 
     public void updateUI(Weather weather){
-        int maxTemp = Integer.valueOf(weather.getMax_tempTxt());
-        int minTemp = Integer.valueOf(weather.getMin_tempTxt());
-
         cityNameTxt.setText(weather.getCity_nameTxt() + "," + weather.getCountry_nameTxt());
-        maxTempTxt.setText(Integer.toString(maxTemp) + DEGREE_ICON);
-        minTempTxt.setText(Integer.toString(minTemp)+ DEGREE_ICON);
+        maxTempTxt.setText(Integer.toString(weather.getMax_tempTxt()) + DEGREE_ICON);
+        minTempTxt.setText(Integer.toString(weather.getMin_tempTxt())+ DEGREE_ICON);
         descriptionTxt.setText(weather.getDescriptionTxt());
     }
     public void deleteListItem(final int position){

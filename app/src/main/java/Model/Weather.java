@@ -6,8 +6,8 @@ package Model;
 
 public class Weather {
 
-    private String max_tempTxt;
-    private String min_tempTxt;
+    private int max_tempTxt;
+    private int min_tempTxt;
     private String city_nameTxt;
     private String country_nameTxt;
     private String descriptionTxt;
@@ -28,7 +28,7 @@ public class Weather {
     public Weather() {
     }
 
-    public Weather(String max_tempTxt, String min_tempTxt, String city_nameTxt, String country_nameTxt, String descriptionTxt, Double lat, Double lon, String windSpeedTxt, String windDegTxt, String humidity) {
+    public Weather(int max_tempTxt, int min_tempTxt, String city_nameTxt, String country_nameTxt, String descriptionTxt, Double lat, Double lon, String windSpeedTxt, String windDegTxt, String humidity) {
         this.max_tempTxt = max_tempTxt;
         this.min_tempTxt = min_tempTxt;
         this.city_nameTxt = city_nameTxt;
@@ -49,19 +49,19 @@ public class Weather {
         ItemId = itemId;
     }
 
-    public String getMax_tempTxt() {
+    public int getMax_tempTxt() {
         return max_tempTxt;
     }
 
-    public void setMax_tempTxt(String max_tempTxt) {
+    public void setMax_tempTxt(int max_tempTxt) {
         this.max_tempTxt = max_tempTxt;
     }
 
-    public String getMin_tempTxt() {
+    public int getMin_tempTxt() {
         return min_tempTxt;
     }
 
-    public void setMin_tempTxt(String min_tempTxt) {
+    public void setMin_tempTxt(int min_tempTxt) {
         this.min_tempTxt = min_tempTxt;
     }
 
