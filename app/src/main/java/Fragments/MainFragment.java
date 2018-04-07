@@ -75,6 +75,7 @@ public class MainFragment extends Fragment implements LocationListener {
     private MapViewFragment mapViewFragment;
     private ArrayList<Weather> locations;
     private WeatherAdapter weatherAdapter;
+    private DetailsFragment detailsFragment = new DetailsFragment();
 
     public MainFragment() {
     }
@@ -107,12 +108,14 @@ public class MainFragment extends Fragment implements LocationListener {
         dbHelper = new DBHelper(getActivity());
         dataService = new DataService();
 
+
         setLocationChangeAction();
         getLastKnownLocation();
 
         locations = dbHelper.getWeather();
         weatherAdapter = new WeatherAdapter(getActivity(),R.layout.location_row,locations);
         weatherList.setAdapter(weatherAdapter);
+        weatherAdapter.notifyDataSetChanged();
         index = 0;
         request();
 
@@ -126,12 +129,11 @@ public class MainFragment extends Fragment implements LocationListener {
                 return true;
             }
         });
-        weatherAdapter.notifyDataSetChanged();
         weatherList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // weather = weatherAdapter.getItem(position);
-                DetailsFragment detailsFragment = new DetailsFragment();
+                weather = locations.get(position);
+                updateDetails(weather);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_containerId,detailsFragment).addToBackStack(null);
                 transaction.commit();
@@ -224,8 +226,9 @@ public class MainFragment extends Fragment implements LocationListener {
     }
 
     public void request(){
-        if(locations.size() == 0)
+        if(locations.size() == 0){
             return;
+        }
         String weatherURl = dataService.getCurrentWeatherData(locations.get(index).getLat(),locations.get(index).getLon());
         try {
             jsonObject = new JSONObject(weatherURl);
@@ -249,6 +252,7 @@ public class MainFragment extends Fragment implements LocationListener {
         minTempTxt.setText(Integer.toString(weather.getMin_tempTxt())+ DEGREE_ICON);
         descriptionTxt.setText(weather.getDescriptionTxt());
     }
+
     public void deleteListItem(final int position){
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Do you want to delete?");
@@ -290,5 +294,18 @@ public class MainFragment extends Fragment implements LocationListener {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
+    }
+
+    public void updateDetails(Weather weather){
+        Bundle args = new Bundle();
+        args.putDouble("lat", weather.getLat());
+        args.putDouble("lon", weather.getLon());
+        args.putString("city",weather.getCity_nameTxt());
+        args.putString("temp", String.valueOf(weather.getCurrent_temp())+DEGREE_ICON);
+        args.putString("maxTemp", String.valueOf(weather.getMax_tempTxt())+DEGREE_ICON);
+        args.putString("minTemp", String.valueOf(weather.getMin_tempTxt())+DEGREE_ICON);
+        args.putString("humidity",weather.getHumidity()+DEGREE_ICON);
+        args.putString("wind",weather.getWindSpeedTxt()+DEGREE_ICON);
+        detailsFragment.setArguments(args);
     }
 }

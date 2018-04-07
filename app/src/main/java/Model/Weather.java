@@ -1,5 +1,10 @@
 package Model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 /**
  * Created by ozanal on 27/03/2018.
  */
@@ -8,27 +13,23 @@ public class Weather {
 
     private int max_tempTxt;
     private int min_tempTxt;
+    private int current_temp;
     private String city_nameTxt;
     private String country_nameTxt;
     private String descriptionTxt;
+    private String date;
     private Double lat;
     private Double lon;
     private String windSpeedTxt;
     private String windDegTxt;
     private String humidity;
     private int ItemId;
-
-    public static final String WEATHER_TYPE_CLOUDS = "Clouds";
-    public static final String WEATHER_TYPE_CLEAR = "Clear";
-    public static final String WEATHER_TYPE_RAIN = "Rain";
-    public static final String WEATHER_TYPE_WIND = "Wind";
-    public static final String WEATHER_TYPE_SNOW = "Snow";
-
+    private String weatherIcon;
 
     public Weather() {
     }
 
-    public Weather(int max_tempTxt, int min_tempTxt, String city_nameTxt, String country_nameTxt, String descriptionTxt, Double lat, Double lon, String windSpeedTxt, String windDegTxt, String humidity) {
+    public Weather(int max_tempTxt, int min_tempTxt, String city_nameTxt, String country_nameTxt, String descriptionTxt, Double lat, Double lon, String windSpeedTxt, String windDegTxt, String humidity,String date,int current_temp,int itemId,String weatherIcon) {
         this.max_tempTxt = max_tempTxt;
         this.min_tempTxt = min_tempTxt;
         this.city_nameTxt = city_nameTxt;
@@ -39,6 +40,10 @@ public class Weather {
         this.windSpeedTxt = windSpeedTxt;
         this.windDegTxt = windDegTxt;
         this.humidity = humidity;
+        this.date = date;
+        this.current_temp = current_temp;
+        this.ItemId = itemId;
+        this.weatherIcon = weatherIcon;
     }
 
     public int getItemId() {
@@ -127,5 +132,34 @@ public class Weather {
 
     public void setHumidity(String humidity) {
         this.humidity = humidity;
+    }
+
+    public String getDate() {
+        String weekDay;
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+
+        Calendar calendar = Calendar.getInstance();
+        weekDay = dayFormat.format(calendar.getTime());
+        return weekDay;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getCurrent_temp() {
+        return current_temp;
+    }
+
+    public void setCurrent_temp(int current_temp) {
+        this.current_temp = current_temp;
+    }
+
+    public String getWeatherIcon() {
+        return weatherIcon;
+    }
+
+    public void setWeatherIcon(String weatherIcon) {
+        this.weatherIcon = weatherIcon;
     }
 }

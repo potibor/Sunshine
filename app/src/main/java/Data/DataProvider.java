@@ -41,7 +41,6 @@ public class DataProvider {
 
     public static String createWeatherUrl(Double lat, Double lon) {
         String fullUrl = BASE_URL_WEATHER + COORD_URL + lat + "&lon=" + lon + API_KEY_URL + METRIC_UNITS_URL;
-        Log.v("url",""+ fullUrl);
         return fullUrl;
     }
 

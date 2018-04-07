@@ -22,10 +22,10 @@ import java.util.ArrayList;
  */
 
 public class WeatherAdapter extends ArrayAdapter<Weather> {
-    Activity activity;
-    int layoutResource;
-    Weather weather;
-    ArrayList<Weather> wData = new ArrayList<>();
+    private Activity activity;
+    private int layoutResource;
+    private ArrayList<Weather> wData = new ArrayList<>();
+    private static String DEGREE_ICON = "\u00b0";
 
     public WeatherAdapter(@NonNull Activity act, int resource, ArrayList<Weather> weatherData) {
         super(act, resource, weatherData);
@@ -34,8 +34,6 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         wData = weatherData;
         notifyDataSetChanged();
     }
-
-
 
     @Override
     public int getCount() {
@@ -82,16 +80,13 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         holder.city_nameHolder.setText(holder.weather.getCity_nameTxt());
         int maxTemp = Integer.valueOf(holder.weather.getMax_tempTxt());
         int minTemp = Integer.valueOf(holder.weather.getMin_tempTxt());
-        holder.max_tempHolder.setText(Integer.toString(maxTemp));
-        holder.min_tempHolder.setText(Integer.toString(minTemp));
+        holder.max_tempHolder.setText(Integer.toString(maxTemp)+DEGREE_ICON);
+        holder.min_tempHolder.setText(Integer.toString(minTemp)+DEGREE_ICON);
         return row;
     }
-
-
     public class ViewHolder {
 
         Weather weather;
-        int mId;
         TextView city_nameHolder;
         TextView max_tempHolder;
         TextView min_tempHolder;

@@ -24,6 +24,14 @@
         android:layout_height="250dp"
         android:layout_below="@id/detailsActionBarId">
 
+        <TextView
+            android:id="@+id/cityNameDetailId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"/>
+
         <ImageView
             android:id="@+id/detailsImgId"
             android:layout_width="70dp"
@@ -33,13 +41,22 @@
             android:layout_marginTop="50dp"/>
 
         <TextView
+            android:id="@+id/currentTempDetailId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detailsImgId"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom"
+            android:textSize="45sp" />
+
+        <TextView
             android:id="@+id/detailsMaxTempId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/rainDetailsImgId"
-            android:layout_below="@+id/detailsImgId"
-            android:text="75"
-            android:textSize="50sp" />
+            android:layout_alignBottom="@+id/currentTempDetailId"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/cityNameDetailId"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/detailsMinTempId"
@@ -47,9 +64,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/detailsMaxTempId"
             android:layout_alignBottom="@+id/detailsMaxTempId"
-            android:layout_alignEnd="@+id/detailsImgId"
-            android:text="65"
-            android:textSize="20sp" />
+            android:layout_toEndOf="@+id/detailsMaxTempId"
+            android:layout_marginStart="5dp"
+            android:textSize="10sp" />
 
         <ImageView
             android:id="@+id/humidityDetailsImgId"
@@ -65,7 +82,6 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@+id/humidityDetailsImgId"
-            android:text="35"
             android:textSize="30sp" />
 
         <ImageView
@@ -75,13 +91,13 @@
             android:layout_alignBottom="@+id/humidityValueId"
             android:layout_marginStart="24dp"
             android:layout_toEndOf="@+id/humidityValueId" />
+
         <TextView
             android:id="@+id/rainValueId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/detailsMinTempId"
-            android:layout_alignTop="@+id/rainDetailsImgId"
-            android:text="40"
+            android:layout_alignTop="@+id/windDetailsImgId"
+            android:layout_toStartOf="@+id/detailsMaxTempId"
             android:textSize="30sp" />
 
         <ImageView
@@ -98,7 +114,6 @@
             android:layout_alignTop="@+id/windDetailsImgId"
             android:layout_marginStart="20dp"
             android:layout_toEndOf="@+id/windDetailsImgId"
-            android:text="45"
             android:textSize="30sp" />
     </RelativeLayout>
 
