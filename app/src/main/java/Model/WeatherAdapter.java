@@ -10,21 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hasanozanal.sunshine.R;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ozanal on 29/03/2018.
  */
 
-public class WeatherAdapter extends ArrayAdapter<Weather> {
+public class WeatherAdapter extends ArrayAdapter<Weather> implements Filterable {
     private Activity activity;
     private int layoutResource;
     private ArrayList<Weather> wData = new ArrayList<>();
+    private ArrayList<Weather> weatherList = new ArrayList<>() ;
     private static String DEGREE_ICON = "\u00b0";
 
     public WeatherAdapter(@NonNull Activity act, int resource, ArrayList<Weather> weatherData) {
@@ -91,6 +95,22 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         TextView max_tempHolder;
         TextView min_tempHolder;
         ImageView imageView;
+    }
+
+    public void filter(String text){
+        text = text.toLowerCase(Locale.getDefault());
+        weatherList.clear();
+        if (text.length() == 0) {
+            weatherList.addAll(wData);
+        }else {
+            for (Weather weather : wData) {
+                if (weather.getCity_nameTxt().toLowerCase(Locale.getDefault()).contains(text)) {
+                    weatherList.add(weather);
+                    wData = weatherList;
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 }

@@ -74,7 +74,8 @@
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="30dp" />
+            android:layout_marginStart="30dp"
+            android:src="@drawable/wett"/>
         <TextView
             android:id="@+id/humidityValueId"
             android:layout_width="wrap_content"
@@ -90,7 +91,8 @@
             android:layout_height="40dp"
             android:layout_alignBottom="@+id/humidityValueId"
             android:layout_marginStart="24dp"
-            android:layout_toEndOf="@+id/humidityValueId" />
+            android:layout_toEndOf="@+id/humidityValueId"
+            android:src="@drawable/ra"/>
 
         <TextView
             android:id="@+id/rainValueId"
@@ -106,7 +108,8 @@
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="20dp"
-            android:layout_toEndOf="@+id/rainValueId" />
+            android:layout_toEndOf="@+id/rainValueId"
+            android:src="@drawable/w"/>
         <TextView
             android:id="@+id/windValueId"
             android:layout_width="wrap_content"
@@ -120,7 +123,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewId"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/detailsLayoutId">
     </android.support.v7.widget.RecyclerView>
 

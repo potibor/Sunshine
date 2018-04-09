@@ -107,6 +107,13 @@
         android:id="@+id/listviewId"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/currenWeatherRelativeLayoutId"/>
+        android:layout_below="@id/searchViewId"/>
+    <SearchView
+        android:id="@+id/searchViewId"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@id/currenWeatherRelativeLayoutId">
+
+    </SearchView>
 
 </RelativeLayout>

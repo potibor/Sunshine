@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -47,7 +48,7 @@ import Helpers.DBHelper;
 import Model.Weather;
 import Model.WeatherAdapter;
 
-public class MainFragment extends Fragment implements LocationListener {
+public class MainFragment extends Fragment implements LocationListener,SearchView.OnQueryTextListener {
 
     private static String DEGREE_ICON = "\u00b0";
     private int index = 0;
@@ -66,6 +67,7 @@ public class MainFragment extends Fragment implements LocationListener {
     private ImageView imageView;
     private ImageButton addLocationBtn;
     private ListView weatherList;
+    private SearchView searchView;
 
     private Weather weather;
     private DBHelper dbHelper;
@@ -103,6 +105,7 @@ public class MainFragment extends Fragment implements LocationListener {
         descriptionTxt = (TextView) view.findViewById(R.id.descriptionTxtId);
         imageView =(ImageView) view.findViewById(R.id.currentWeatherImgId);
         weatherList = (ListView) view.findViewById(R.id.listviewId);
+        searchView = (SearchView) view.findViewById(R.id.searchViewId);
 
 
         dbHelper = new DBHelper(getActivity());
@@ -149,6 +152,8 @@ public class MainFragment extends Fragment implements LocationListener {
                 transaction.commit();
             }
         });
+
+        searchView.setOnQueryTextListener(this);
         return view;
     }
 
@@ -307,5 +312,31 @@ public class MainFragment extends Fragment implements LocationListener {
         args.putString("humidity",weather.getHumidity()+DEGREE_ICON);
         args.putString("wind",weather.getWindSpeedTxt()+DEGREE_ICON);
         detailsFragment.setArguments(args);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if (query.isEmpty()){
+            weatherAdapter = new WeatherAdapter(getActivity(),R.layout.location_row,locations);
+            weatherList.setAdapter(weatherAdapter);
+            weatherAdapter.notifyDataSetChanged();
+        }
+        else{
+            weatherAdapter.filter(query);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText.isEmpty()){
+            weatherAdapter = new WeatherAdapter(getActivity(),R.layout.location_row,locations);
+            weatherList.setAdapter(weatherAdapter);
+            weatherAdapter.notifyDataSetChanged();
+        }
+        else{
+            weatherAdapter.filter(newText);
+        }
+        return false;
     }
 }

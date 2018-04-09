@@ -1,9 +1,9 @@
 package Model;
 
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.GregorianCalendar;
 
 /**
  * Created by ozanal on 27/03/2018.
@@ -135,12 +135,16 @@ public class Weather {
     }
 
     public String getDate() {
-        String weekDay;
-        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+        SimpleDateFormat curFormater = new SimpleDateFormat("EEEE");
+        GregorianCalendar date = new GregorianCalendar();
+        String[] dateStringArray = new String[7];
 
-        Calendar calendar = Calendar.getInstance();
-        weekDay = dayFormat.format(calendar.getTime());
-        return weekDay;
+        for (int day = 0; day < 7; day++) {
+            dateStringArray[day] = curFormater.format(date.getTime());
+            date.roll(Calendar.DATE, 1);
+
+        }
+        return "";
     }
 
     public void setDate(String date) {

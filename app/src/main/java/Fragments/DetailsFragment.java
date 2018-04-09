@@ -2,12 +2,15 @@ package Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.hasanozanal.sunshine.R;
@@ -47,6 +50,7 @@ public class DetailsFragment extends Fragment {
     private ImageView humdityImg;
     private ImageView rainImg;
     private ImageView windImg;
+    private ImageButton button;
 
     public DetailsFragment() {
     }
@@ -71,6 +75,17 @@ public class DetailsFragment extends Fragment {
         windValueTxt = (TextView) view.findViewById(R.id.windValueId);
         rainValueTxt = (TextView) view.findViewById(R.id.rainValueId);
         current_temp = (TextView) view.findViewById(R.id.currentTempDetailId);
+        button = (ImageButton) view.findViewById(R.id.BackToMainBtnId);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainFragment mainFragment = new MainFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_containerId,mainFragment);
+                transaction.commit();
+            }
+        });
 
         dbHelper = new DBHelper(getActivity());
         dataService = new DataService();
@@ -83,9 +98,6 @@ public class DetailsFragment extends Fragment {
             humidityValueTxt.setText(bundle.getString("humidity","5"));
             windValueTxt.setText(bundle.getString("wind","5"));
             city_nameTxt.setText(bundle.getString("city","Current City"));
-            //TODO: current temp json handle
-            //TODO: img json handle
-
         }
         String forecastUrl = dataService.getForecastWeatherData(bundle.getDouble("lat"),bundle.getDouble("lon"));
         Log.v("weather",""+ forecastUrl);
