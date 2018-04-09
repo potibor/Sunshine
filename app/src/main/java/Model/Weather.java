@@ -138,11 +138,10 @@ public class Weather {
         SimpleDateFormat curFormater = new SimpleDateFormat("EEEE");
         GregorianCalendar date = new GregorianCalendar();
         String[] dateStringArray = new String[7];
-
         for (int day = 0; day < 7; day++) {
             dateStringArray[day] = curFormater.format(date.getTime());
             date.roll(Calendar.DATE, 1);
-
+    return dateStringArray[day];
         }
         return "";
     }

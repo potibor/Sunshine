@@ -50,7 +50,12 @@ import Model.WeatherAdapter;
 
 public class MainFragment extends Fragment implements LocationListener,SearchView.OnQueryTextListener {
 
+    //region Static Values
+
     private static String DEGREE_ICON = "\u00b0";
+
+    //endregion
+
     private int index = 0;
 
     private Location mLocation;
@@ -58,6 +63,8 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     private FusedLocationProviderClient mLocationClient;
     private LocationCallback mLocationCallBack;
     private LocationRequest mLocationRequest;
+
+    //region Views
 
     private TextView currentDateTxt;
     private TextView maxTempTxt;
@@ -68,6 +75,8 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     private ImageButton addLocationBtn;
     private ListView weatherList;
     private SearchView searchView;
+
+    //endregion
 
     private Weather weather;
     private DBHelper dbHelper;
@@ -86,6 +95,8 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         MainFragment fragment = new MainFragment();
         return fragment;
     }
+
+    //region Lifecycle
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,10 +118,8 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         weatherList = (ListView) view.findViewById(R.id.listviewId);
         searchView = (SearchView) view.findViewById(R.id.searchViewId);
 
-
         dbHelper = new DBHelper(getActivity());
         dataService = new DataService();
-
 
         setLocationChangeAction();
         getLastKnownLocation();
@@ -156,6 +165,8 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         searchView.setOnQueryTextListener(this);
         return view;
     }
+
+    //endregion
 
     @Override
     public void onLocationChanged(Location location) {
@@ -230,8 +241,8 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         };
     }
 
-    public void request(){
-        if(locations.size() == 0){
+    public void request() {
+        if (locations.size() == 0){
             return;
         }
         String weatherURl = dataService.getCurrentWeatherData(locations.get(index).getLat(),locations.get(index).getLon());
@@ -241,11 +252,11 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
             weather = jsonHandler.JSONWeatherHandler(jsonObject);
             locations.set(index, weather);
             index ++;
+
             if(index < locations.size())
                 request();
             else
                 weatherAdapter.notifyDataSetChanged();
-
         }  catch (JSONException e) {
             e.printStackTrace();
         }
@@ -309,21 +320,13 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         args.putString("temp", String.valueOf(weather.getCurrent_temp())+DEGREE_ICON);
         args.putString("maxTemp", String.valueOf(weather.getMax_tempTxt())+DEGREE_ICON);
         args.putString("minTemp", String.valueOf(weather.getMin_tempTxt())+DEGREE_ICON);
-        args.putString("humidity",weather.getHumidity()+DEGREE_ICON);
-        args.putString("wind",weather.getWindSpeedTxt()+DEGREE_ICON);
+        args.putString("humidity",weather.getHumidity());
+        args.putString("wind",weather.getWindSpeedTxt());
         detailsFragment.setArguments(args);
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (query.isEmpty()){
-            weatherAdapter = new WeatherAdapter(getActivity(),R.layout.location_row,locations);
-            weatherList.setAdapter(weatherAdapter);
-            weatherAdapter.notifyDataSetChanged();
-        }
-        else{
-            weatherAdapter.filter(query);
-        }
         return false;
     }
 

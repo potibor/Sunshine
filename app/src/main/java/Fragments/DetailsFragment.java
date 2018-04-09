@@ -101,6 +101,7 @@ public class DetailsFragment extends Fragment {
         }
         String forecastUrl = dataService.getForecastWeatherData(bundle.getDouble("lat"),bundle.getDouble("lon"));
         Log.v("weather",""+ forecastUrl);
+
         try {
             jsonObject = new JSONObject(forecastUrl);
             jsonHandler = new JSONHandler();
@@ -110,15 +111,16 @@ public class DetailsFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewId);
         adapter = new WeatherRecyclerAdapter(locations);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(manager);
         adapter.notifyDataSetChanged();
+
         return view;
     }
-
 
     public void updateListView(Weather weather){
 

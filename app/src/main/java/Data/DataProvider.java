@@ -10,6 +10,7 @@ import org.json.JSONObject;
  */
 
 public class DataProvider {
+
     private static final String BASE_URL_WEATHER = "http://api.openweathermap.org/data/2.5/weather";
     private static final String BASE_URL_FORECAST = "http://api.openweathermap.org/data/2.5/forecast";
     private static final String ICON_URL = "http://openweathermap.org/img/w/";

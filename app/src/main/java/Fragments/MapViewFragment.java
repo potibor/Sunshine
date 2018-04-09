@@ -16,21 +16,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.hasanozanal.sunshine.R;
-import org.json.JSONObject;
-import Data.DataService;
-import Data.JSONHandler;
 import Helpers.DBHelper;
-import Model.Weather;
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
     private GoogleMap mMap;
     private MarkerOptions userMarker;
-    private Weather weather = new Weather();
     private DBHelper dbHelper = new DBHelper(getActivity());
-    private DataService dataService;
-    private JSONObject jsonObject;
-    private  JSONHandler jsonHandler;
 
     public MapViewFragment() {
     }
@@ -75,8 +67,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback, Goo
             getLatAndLon(latLng);
         }
     }
-    private void getLatAndLon(final LatLng latLng) {
 
+    private void getLatAndLon(final LatLng latLng) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Do you want to add this location?");
         builder.setCancelable(true);
