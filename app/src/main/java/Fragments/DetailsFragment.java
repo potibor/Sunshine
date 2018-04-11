@@ -37,6 +37,7 @@ public class DetailsFragment extends Fragment {
     private JSONHandler jsonHandler;
     private Weather weather;
     private DBHelper dbHelper;
+    private Bundle bundle;
     private static String DEGREE_ICON = "\u00b0";
 
     private TextView maxTempDetailTxt;
@@ -47,9 +48,6 @@ public class DetailsFragment extends Fragment {
     private TextView rainValueTxt;
     private TextView windValueTxt;
     private ImageView todayDetailImg;
-    private ImageView humdityImg;
-    private ImageView rainImg;
-    private ImageView windImg;
     private ImageButton button;
 
     public DetailsFragment() {
@@ -76,6 +74,7 @@ public class DetailsFragment extends Fragment {
         rainValueTxt = (TextView) view.findViewById(R.id.rainValueId);
         current_temp = (TextView) view.findViewById(R.id.currentTempDetailId);
         button = (ImageButton) view.findViewById(R.id.BackToMainBtnId);
+        todayDetailImg = (ImageView) view.findViewById(R.id.detailsImgId);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,25 +88,15 @@ public class DetailsFragment extends Fragment {
 
         dbHelper = new DBHelper(getActivity());
         dataService = new DataService();
+        bundle = this.getArguments();
+        updateListView();
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null){
-            current_temp.setText(bundle.getString("temp","5"));
-            maxTempDetailTxt.setText(bundle.getString("maxTemp","5"));
-            minTempDetailTxt.setText(bundle.getString("minTemp","5"));
-            humidityValueTxt.setText(bundle.getString("humidity","5"));
-            windValueTxt.setText(bundle.getString("wind","5"));
-            city_nameTxt.setText(bundle.getString("city","Current City"));
-        }
         String forecastUrl = dataService.getForecastWeatherData(bundle.getDouble("lat"),bundle.getDouble("lon"));
-        Log.v("weather",""+ forecastUrl);
 
         try {
             jsonObject = new JSONObject(forecastUrl);
             jsonHandler = new JSONHandler();
             locations = jsonHandler.JSONForecastHandler(jsonObject);
-
-            updateListView(weather);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -122,7 +111,15 @@ public class DetailsFragment extends Fragment {
         return view;
     }
 
-    public void updateListView(Weather weather){
+    public void updateListView(){
+        if (bundle != null){
+            current_temp.setText(bundle.getString("temp","5"));
+            maxTempDetailTxt.setText(bundle.getString("maxTemp","5"));
+            minTempDetailTxt.setText(bundle.getString("minTemp","5"));
+            humidityValueTxt.setText(bundle.getString("humidity","5"));
+            windValueTxt.setText(bundle.getString("wind","5"));
+            city_nameTxt.setText(bundle.getString("city","Current City"));
 
+        }
     }
 }

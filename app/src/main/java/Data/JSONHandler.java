@@ -15,7 +15,7 @@ import Model.Weather;
 public class JSONHandler {
     public Weather JSONWeatherHandler(JSONObject jsonObject) {
 
-        Weather weather = new Weather(0,0,"","","",0.0,0.0,"","","","",0,0,"");
+        Weather weather = new Weather(0,0,"","","",0.0,0.0,"","","","",0,0,"","");
         try {
             // Coordinats
             JSONObject coordObj = DataProvider.getObject("coord",jsonObject);
@@ -25,6 +25,7 @@ public class JSONHandler {
             JSONArray weatherArray = jsonObject.getJSONArray("weather");
             JSONObject weatherObj = weatherArray.getJSONObject(0);
             weather.setDescriptionTxt(DataProvider.getString("main",weatherObj));
+            weather.setWeatherIcon(DataProvider.getString("icon",weatherObj));
             // Main
             JSONObject mainObj = DataProvider.getObject("main",jsonObject);
             weather.setCurrent_temp(DataProvider.getInt("temp",mainObj));
@@ -54,7 +55,7 @@ public class JSONHandler {
             JSONArray listArray = jsonObject.getJSONArray("list");
             for (int i=0;i<listArray.length()-1;i++){
                 if (i % 8 == 7){
-                    Weather weather = new Weather(1,1,"","","",0.0,0.0,"","","","",0,0,"");
+                    Weather weather = new Weather(1,1,"","","",0.0,0.0,"","","","",0,0,"","");
                     // Main
                     JSONObject listArrayJSONObject = listArray.getJSONObject(i);
 

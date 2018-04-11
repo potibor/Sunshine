@@ -7,6 +7,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -39,6 +41,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import Data.DataProvider;
@@ -72,6 +76,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     private TextView cityNameTxt;
     private TextView descriptionTxt;
     private ImageView imageView;
+    private ImageView list_image_View;
     private ImageButton addLocationBtn;
     private ListView weatherList;
     private SearchView searchView;
@@ -117,6 +122,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         imageView =(ImageView) view.findViewById(R.id.currentWeatherImgId);
         weatherList = (ListView) view.findViewById(R.id.listviewId);
         searchView = (SearchView) view.findViewById(R.id.searchViewId);
+        list_image_View = (ImageView) view.findViewById(R.id.list_row_weatherImgId);
 
         dbHelper = new DBHelper(getActivity());
         dataService = new DataService();
@@ -267,6 +273,11 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         maxTempTxt.setText(Integer.toString(weather.getMax_tempTxt()) + DEGREE_ICON);
         minTempTxt.setText(Integer.toString(weather.getMin_tempTxt())+ DEGREE_ICON);
         descriptionTxt.setText(weather.getDescriptionTxt());
+        currentDateTxt.setText(weather.getDate());
+        Bitmap imageIcon = dataService.getImageData(weather.getWeatherIcon());
+        if (imageIcon != null){
+            imageView.setImageBitmap(imageIcon);
+        }
     }
 
     public void deleteListItem(final int position){
@@ -322,6 +333,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         args.putString("minTemp", String.valueOf(weather.getMin_tempTxt())+DEGREE_ICON);
         args.putString("humidity",weather.getHumidity());
         args.putString("wind",weather.getWindSpeedTxt());
+        args.putString("image",weather.getWeatherIcon());
         detailsFragment.setArguments(args);
     }
 

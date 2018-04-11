@@ -1,5 +1,6 @@
 package Model;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import com.hasanozanal.sunshine.R;
 
 import java.util.ArrayList;
 
+import Data.DataService;
+
 /**
  * Created by ozanal on 4.04.2018.
  */
@@ -19,6 +22,8 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
 
     private ArrayList<Weather> mweatherArrayList;
+    private DataService dataService = new DataService();
+    private Weather weather;
 
     public WeatherRecyclerAdapter(ArrayList<Weather> weatherArrayList) {
         mweatherArrayList = weatherArrayList;
@@ -62,7 +67,11 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
             weatherDescription.setText(weather.getDescriptionTxt());
             maxTemp.setText(Double.toString(weather.getMax_tempTxt()));
             minTemp.setText(Double.toString(weather.getMin_tempTxt()));
-            weatherDate.setText(weather.getDate());
+          //  weatherDate.setText(weather.getDate());
+            Bitmap bm = dataService.getImageData(weather.getWeatherIcon());
+            if (bm != null){
+                weatherIcon.setImageBitmap(bm);
+            }
         }
     }
 }

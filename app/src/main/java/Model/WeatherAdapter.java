@@ -3,6 +3,7 @@ package Model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import Data.DataService;
+
 /**
  * Created by ozanal on 29/03/2018.
  */
@@ -30,6 +33,7 @@ public class WeatherAdapter extends ArrayAdapter<Weather> implements Filterable 
     private ArrayList<Weather> wData = new ArrayList<>();
     private ArrayList<Weather> weatherList = new ArrayList<>() ;
     private static String DEGREE_ICON = "\u00b0";
+    private DataService dataService;
 
     public WeatherAdapter(@NonNull Activity act, int resource, ArrayList<Weather> weatherData) {
         super(act, resource, weatherData);
@@ -74,7 +78,7 @@ public class WeatherAdapter extends ArrayAdapter<Weather> implements Filterable 
             holder.city_nameHolder = (TextView) row.findViewById(R.id.list_row_cityNameId);
             holder.max_tempHolder = (TextView) row.findViewById(R.id.list_row_tempId);
             holder.min_tempHolder = (TextView) row.findViewById(R.id.list_row_minTempId);
-            //holder.imageView = (ImageView) row.findViewById(R.id.list_row_weatherImgId);
+            holder.imageView = (ImageView) row.findViewById(R.id.list_row_weatherImgId);
 
             row.setTag(holder);
         } else {
@@ -86,6 +90,12 @@ public class WeatherAdapter extends ArrayAdapter<Weather> implements Filterable 
         int minTemp = Integer.valueOf(holder.weather.getMin_tempTxt());
         holder.max_tempHolder.setText(Integer.toString(maxTemp)+DEGREE_ICON);
         holder.min_tempHolder.setText(Integer.toString(minTemp)+DEGREE_ICON);
+
+        dataService = new DataService();
+        Bitmap bm = dataService.getImageData(holder.weather.getWeatherIcon());
+        if (bm != null) {
+            holder.imageView.setImageBitmap(bm);
+        }
         return row;
     }
     public class ViewHolder {

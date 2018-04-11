@@ -1,7 +1,10 @@
 package Data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ImageView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,8 +21,6 @@ import java.util.concurrent.ExecutionException;
 
 public class DataService {
     public  String getCurrentWeatherData(Double lat,Double lon){
-        HttpURLConnection connection = null;
-        InputStream inputStream = null;
         try {
             return new JsonTask().execute(DataProvider.createWeatherUrl(lat,lon)).get();
         } catch (InterruptedException e) {
@@ -30,8 +31,6 @@ public class DataService {
         return "";
     }
     public  String getForecastWeatherData(Double lat,Double lon){
-        HttpURLConnection connection = null;
-        InputStream inputStream = null;
         try {
             return new JsonTask().execute(DataProvider.createForecastUrl(lat,lon)).get();
         } catch (InterruptedException e) {
@@ -40,6 +39,17 @@ public class DataService {
             e.printStackTrace();
         }
         return "";
+    }
+    public Bitmap getImageData(String code){
+        Bitmap empty = null;
+        try {
+            return  new DownloadImageTask().execute(DataProvider.createImageUrl(code)).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return empty;
     }
     private static class JsonTask extends AsyncTask<String, String, String> {
 
@@ -88,6 +98,26 @@ public class DataService {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+        }
+    }
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
         }
     }
 }

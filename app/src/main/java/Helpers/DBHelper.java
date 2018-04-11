@@ -75,13 +75,10 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME +";");
     }
-
     public void deleteItem(int id){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(TABLE_NAME , KEY_ID + " =? ",new String[]{String.valueOf(id)});
         sqLiteDatabase.close();
         Log.v("success","deleted");
     }
-
-
 }

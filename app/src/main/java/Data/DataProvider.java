@@ -49,5 +49,9 @@ public class DataProvider {
         String fullUrl = BASE_URL_FORECAST + COORD_URL + lat + "&lon=" + lon + API_KEY_URL + METRIC_UNITS_URL;
         return fullUrl;
     }
+    public static String createImageUrl(String code){
+        String fullUrl = ICON_URL + code + ".png";
+        return fullUrl;
+    }
 }
 

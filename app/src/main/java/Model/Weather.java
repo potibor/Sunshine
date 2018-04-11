@@ -3,6 +3,7 @@ package Model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -18,6 +19,7 @@ public class Weather {
     private String country_nameTxt;
     private String descriptionTxt;
     private String date;
+    private String forecastDate;
     private Double lat;
     private Double lon;
     private String windSpeedTxt;
@@ -29,7 +31,7 @@ public class Weather {
     public Weather() {
     }
 
-    public Weather(int max_tempTxt, int min_tempTxt, String city_nameTxt, String country_nameTxt, String descriptionTxt, Double lat, Double lon, String windSpeedTxt, String windDegTxt, String humidity,String date,int current_temp,int itemId,String weatherIcon) {
+    public Weather(int max_tempTxt, int min_tempTxt, String city_nameTxt, String country_nameTxt, String descriptionTxt, Double lat, Double lon, String windSpeedTxt, String windDegTxt, String humidity,String date,int current_temp,int itemId,String weatherIcon,String forecastDate) {
         this.max_tempTxt = max_tempTxt;
         this.min_tempTxt = min_tempTxt;
         this.city_nameTxt = city_nameTxt;
@@ -44,6 +46,7 @@ public class Weather {
         this.current_temp = current_temp;
         this.ItemId = itemId;
         this.weatherIcon = weatherIcon;
+        this.forecastDate = forecastDate;
     }
 
     public int getItemId() {
@@ -135,15 +138,9 @@ public class Weather {
     }
 
     public String getDate() {
-        SimpleDateFormat curFormater = new SimpleDateFormat("EEEE");
-        GregorianCalendar date = new GregorianCalendar();
-        String[] dateStringArray = new String[7];
-        for (int day = 0; day < 7; day++) {
-            dateStringArray[day] = curFormater.format(date.getTime());
-            date.roll(Calendar.DATE, 1);
-    return dateStringArray[day];
-        }
-        return "";
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE,dd MM");
+        String currentDateandTime = sdf.format(new Date());
+        return  currentDateandTime;
     }
 
     public void setDate(String date) {
@@ -164,5 +161,21 @@ public class Weather {
 
     public void setWeatherIcon(String weatherIcon) {
         this.weatherIcon = weatherIcon;
+    }
+
+    public String getForecastDate() {
+        SimpleDateFormat curFormater = new SimpleDateFormat("EEEE");
+        GregorianCalendar date = new GregorianCalendar();
+        String[] dateStringArray = new String[7];
+        for (int day = 0; day < 7; day++) {
+            dateStringArray[day] = curFormater.format(date.getTime());
+            date.roll(Calendar.DATE, 1);
+            return dateStringArray[day];
+        }
+        return "";
+    }
+
+    public void setForecastDate(String forecastDate) {
+        this.forecastDate = forecastDate;
     }
 }
