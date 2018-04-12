@@ -1,4 +1,4 @@
-package Fragments;
+package com.hasanozanal.sunshine.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,7 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.hasanozanal.sunshine.R;
-import Helpers.DBHelper;
+import com.hasanozanal.sunshine.Helpers.DBHelper;
 
 public class MapViewFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 

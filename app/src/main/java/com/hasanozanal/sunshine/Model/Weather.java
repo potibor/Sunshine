@@ -1,4 +1,4 @@
-package Model;
+package com.hasanozanal.sunshine.Model;
 
 
 import java.text.SimpleDateFormat;

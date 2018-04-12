@@ -1,4 +1,4 @@
-package Data;
+package com.hasanozanal.sunshine.Data;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import Model.Weather;
+import com.hasanozanal.sunshine.Model.Weather;
 
 /**
  * Created by ozanal on 27/03/2018.

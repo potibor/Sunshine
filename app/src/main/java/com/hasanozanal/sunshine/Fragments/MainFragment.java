@@ -1,15 +1,12 @@
-package Fragments;
+package com.hasanozanal.sunshine.Fragments;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
@@ -20,7 +17,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +27,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -42,18 +37,13 @@ import com.hasanozanal.sunshine.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import Data.DataProvider;
-import Data.DataService;
-import Data.JSONHandler;
-import Helpers.DBHelper;
-import Model.Weather;
-import Model.WeatherAdapter;
+import com.hasanozanal.sunshine.Data.DataService;
+import com.hasanozanal.sunshine.Data.JSONHandler;
+import com.hasanozanal.sunshine.Helpers.DBHelper;
+import com.hasanozanal.sunshine.Model.Weather;
+import com.hasanozanal.sunshine.Model.WeatherAdapter;
 
 public class MainFragment extends Fragment implements LocationListener,SearchView.OnQueryTextListener {
 

@@ -1,6 +1,4 @@
-package Data;
-
-import android.util.Log;
+package com.hasanozanal.sunshine.Data;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,10 +24,6 @@ public class DataProvider {
 
     public static String getString(String tagName, JSONObject jsonObject) throws JSONException {
         return jsonObject.getString(tagName);
-    }
-
-    public static float getFloat(String tagName, JSONObject jsonObject) throws JSONException {
-        return (float) jsonObject.getDouble(tagName);
     }
 
     public static double getDouble(String tagName, JSONObject jsonObject) throws JSONException {

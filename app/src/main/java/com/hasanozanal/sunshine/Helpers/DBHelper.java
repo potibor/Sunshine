@@ -1,18 +1,15 @@
-package Helpers;
+package com.hasanozanal.sunshine.Helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.location.Location;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-import Fragments.MapViewFragment;
-import Model.Weather;
+import com.hasanozanal.sunshine.Model.Weather;
 
 /**
  * Created by ozanal on 27/03/2018.

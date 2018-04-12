@@ -1,4 +1,4 @@
-package Fragments;
+package com.hasanozanal.sunshine.Fragments;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -16,11 +16,11 @@ import com.hasanozanal.sunshine.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
-import Data.DataService;
-import Data.JSONHandler;
-import Helpers.DBHelper;
-import Model.Weather;
-import Model.WeatherRecyclerAdapter;
+import com.hasanozanal.sunshine.Data.DataService;
+import com.hasanozanal.sunshine.Data.JSONHandler;
+import com.hasanozanal.sunshine.Helpers.DBHelper;
+import com.hasanozanal.sunshine.Model.Weather;
+import com.hasanozanal.sunshine.Model.WeatherRecyclerAdapter;
 
 public class DetailsFragment extends Fragment {
 

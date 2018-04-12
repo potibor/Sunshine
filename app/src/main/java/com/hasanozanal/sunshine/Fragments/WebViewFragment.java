@@ -1,7 +1,5 @@
-package Fragments;
+package com.hasanozanal.sunshine.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,7 +26,6 @@ public class WebViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_web_view, container, false);
         WebView wv = (WebView) view.findViewById(R.id.the_webview);
         wv.loadUrl("http://www.hasanozanal.com");

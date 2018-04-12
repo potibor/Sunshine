@@ -1,4 +1,4 @@
-package Model;
+package com.hasanozanal.sunshine.Model;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,7 @@ import com.hasanozanal.sunshine.R;
 
 import java.util.ArrayList;
 
-import Data.DataService;
+import com.hasanozanal.sunshine.Data.DataService;
 
 /**
  * Created by ozanal on 4.04.2018.

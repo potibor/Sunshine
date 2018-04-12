@@ -1,12 +1,10 @@
-package Model;
+package com.hasanozanal.sunshine.Model;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +16,9 @@ import android.widget.TextView;
 import com.hasanozanal.sunshine.R;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-import Data.DataService;
+import com.hasanozanal.sunshine.Data.DataService;
 
 /**
  * Created by ozanal on 29/03/2018.

@@ -1,4 +1,4 @@
-package Fragments;
+package com.hasanozanal.sunshine.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
