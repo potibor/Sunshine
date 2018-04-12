@@ -9,4 +9,6 @@
     <string name="city_nameString">Üsküdar,TR</string>
     <string name="description_String">Clear</string>
     <string name="title_activity_maps">Map</string>
+    <string name="saveBtn">SEND</string>
+    <string name="cancelBtn">CANCEL</string>
 </resources>

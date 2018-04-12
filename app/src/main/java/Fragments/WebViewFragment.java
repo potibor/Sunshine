@@ -31,7 +31,7 @@ public class WebViewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_web_view, container, false);
         WebView wv = (WebView) view.findViewById(R.id.the_webview);
-        wv.loadUrl("hasanozanal.com");
+        wv.loadUrl("http://www.hasanozanal.com");
         return view;
     }
 }

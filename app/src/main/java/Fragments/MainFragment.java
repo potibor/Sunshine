@@ -4,11 +4,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -78,6 +81,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     private ImageView imageView;
     private ImageView list_image_View;
     private ImageButton addLocationBtn;
+    private ImageButton webViewBtn;
     private ListView weatherList;
     private SearchView searchView;
 
@@ -89,6 +93,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     private DataService dataService;
     private JSONObject jsonObject;
     private MapViewFragment mapViewFragment;
+    private Dialog ratingDialog;
     private ArrayList<Weather> locations;
     private WeatherAdapter weatherAdapter;
     private DetailsFragment detailsFragment = new DetailsFragment();
@@ -106,26 +111,18 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        rateDialog();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-
-        addLocationBtn = (ImageButton) view.findViewById(R.id.addLocationBtnId);
-        currentDateTxt = (TextView) view.findViewById(R.id.currentDateId);
-        maxTempTxt = (TextView) view.findViewById(R.id.max_tempTextId);
-        minTempTxt = (TextView) view.findViewById(R.id.min_tempTxtId);
-        cityNameTxt = (TextView) view.findViewById(R.id.city_nameTxtId);
-        descriptionTxt = (TextView) view.findViewById(R.id.descriptionTxtId);
-        imageView =(ImageView) view.findViewById(R.id.currentWeatherImgId);
-        weatherList = (ListView) view.findViewById(R.id.listviewId);
-        searchView = (SearchView) view.findViewById(R.id.searchViewId);
-        list_image_View = (ImageView) view.findViewById(R.id.list_row_weatherImgId);
+        setFields(view);
 
         dbHelper = new DBHelper(getActivity());
         dataService = new DataService();
+
 
         setLocationChangeAction();
         getLastKnownLocation();
@@ -164,6 +161,16 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
                 MapViewFragment mapViewFragment = new MapViewFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_containerId, mapViewFragment).addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        webViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebViewFragment webViewFragment = new WebViewFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_containerId, webViewFragment).addToBackStack(null);
                 transaction.commit();
             }
         });
@@ -337,6 +344,21 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         detailsFragment.setArguments(args);
     }
 
+    public void setFields(View view){
+
+        addLocationBtn = (ImageButton) view.findViewById(R.id.addLocationBtnId);
+        currentDateTxt = (TextView) view.findViewById(R.id.currentDateId);
+        maxTempTxt = (TextView) view.findViewById(R.id.max_tempTextId);
+        minTempTxt = (TextView) view.findViewById(R.id.min_tempTxtId);
+        cityNameTxt = (TextView) view.findViewById(R.id.city_nameTxtId);
+        descriptionTxt = (TextView) view.findViewById(R.id.descriptionTxtId);
+        imageView =(ImageView) view.findViewById(R.id.currentWeatherImgId);
+        weatherList = (ListView) view.findViewById(R.id.listviewId);
+        searchView = (SearchView) view.findViewById(R.id.searchViewId);
+        list_image_View = (ImageView) view.findViewById(R.id.list_row_weatherImgId);
+        webViewBtn = (ImageButton) view.findViewById(R.id.QuestionMarkBtnId);
+    }
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
@@ -353,5 +375,12 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
             weatherAdapter.filter(newText);
         }
         return false;
+    }
+
+    public void rateDialog(){
+        ratingDialog = new Dialog(getActivity());
+        ratingDialog.setContentView(R.layout.custom_popup);
+        ratingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        ratingDialog.show();
     }
 }
