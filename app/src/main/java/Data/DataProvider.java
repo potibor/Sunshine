@@ -41,12 +41,12 @@ public class DataProvider {
     }
 
     public static String createWeatherUrl(Double lat, Double lon) {
-        String fullUrl = BASE_URL_WEATHER + COORD_URL + lat + "&lon=" + lon + API_KEY_URL + METRIC_UNITS_URL;
+        String fullUrl = BASE_URL_WEATHER + COORD_URL + lat + "&lon=" + lon + API_KEY_URL;
         return fullUrl;
     }
 
     public static String createForecastUrl(Double lat, Double lon) {
-        String fullUrl = BASE_URL_FORECAST + COORD_URL + lat + "&lon=" + lon + API_KEY_URL + METRIC_UNITS_URL;
+        String fullUrl = BASE_URL_FORECAST + COORD_URL + lat + "&lon=" + lon + API_KEY_URL;
         return fullUrl;
     }
     public static String createImageUrl(String code){

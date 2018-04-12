@@ -100,7 +100,8 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/windDetailsImgId"
             android:layout_toStartOf="@+id/detailsMaxTempId"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:text="@string/rainValue"/>
 
         <ImageView
             android:id="@+id/windDetailsImgId"

@@ -28,6 +28,16 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
             android:background="@android:drawable/ic_menu_help"/>
+
+        <ImageButton
+            android:id="@+id/fragment_main_settings_btn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignBottom="@+id/QuestionMarkBtnId"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="15dp"
+            android:layout_toStartOf="@+id/QuestionMarkBtnId"
+            android:src="@android:drawable/ic_menu_preferences" />
     </RelativeLayout>
 
     <RelativeLayout
