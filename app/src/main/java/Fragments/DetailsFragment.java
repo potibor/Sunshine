@@ -1,12 +1,11 @@
 package Fragments;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +13,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.hasanozanal.sunshine.R;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import Data.DataService;
 import Data.JSONHandler;
 import Helpers.DBHelper;
 import Model.Weather;
-import Model.WeatherAdapter;
 import Model.WeatherRecyclerAdapter;
 
 public class DetailsFragment extends Fragment {
 
     private MainFragment mainFragment;
-    private WeatherAdapter weatherAdapter;
     private WeatherRecyclerAdapter adapter;
     private ArrayList<Weather> locations;
     private DataService dataService;
@@ -49,6 +44,7 @@ public class DetailsFragment extends Fragment {
     private TextView windValueTxt;
     private ImageView todayDetailImg;
     private ImageButton button;
+    private RecyclerView recyclerView;
 
     public DetailsFragment() {
     }
@@ -65,32 +61,59 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
+        setFields(view);
 
-        city_nameTxt = (TextView) view.findViewById(R.id.cityNameDetailId);
-        maxTempDetailTxt = (TextView) view.findViewById(R.id.detailsMaxTempId);
-        minTempDetailTxt = (TextView) view.findViewById(R.id.detailsMinTempId);
-        humidityValueTxt = (TextView) view.findViewById(R.id.humidityValueId);
-        windValueTxt = (TextView) view.findViewById(R.id.windValueId);
-        rainValueTxt = (TextView) view.findViewById(R.id.rainValueId);
-        current_temp = (TextView) view.findViewById(R.id.currentTempDetailId);
-        button = (ImageButton) view.findViewById(R.id.BackToMainBtnId);
-        todayDetailImg = (ImageView) view.findViewById(R.id.detailsImgId);
-
+        // region ButtonClick
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainFragment mainFragment = new MainFragment();
+                mainFragment = new MainFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_containerId,mainFragment);
                 transaction.commit();
             }
         });
 
+        // endregion
+
+        initializeClass();
+        fetchWeatherData();
+        fetchForecastData();
+        setAdapter();
+
+        return view;
+    }
+
+    public void initializeClass(){
         dbHelper = new DBHelper(getActivity());
         dataService = new DataService();
         bundle = this.getArguments();
-        updateListView();
+    }
+    public void updateView(Weather weather){
+        current_temp.setText(Integer.toString(weather.getCurrent_temp())+DEGREE_ICON);
+        maxTempDetailTxt.setText(Integer.toString(weather.getMax_tempTxt())+DEGREE_ICON);
+        minTempDetailTxt.setText(Integer.toString(weather.getMin_tempTxt())+DEGREE_ICON);
+        humidityValueTxt.setText(weather.getHumidity());
+        windValueTxt.setText(weather.getWindSpeedTxt());
+        city_nameTxt.setText(weather.getCity_nameTxt());
 
+        Bitmap imageIcon = dataService.getImageData(weather.getWeatherIcon());
+        if (imageIcon != null){
+            todayDetailImg.setImageBitmap(imageIcon);
+        }
+    }
+    public void fetchWeatherData(){
+        String weatherUrl = dataService.getCurrentWeatherData(bundle.getDouble("lat"),bundle.getDouble("lon"));
+        try {
+            jsonObject = new JSONObject(weatherUrl);
+            jsonHandler = new JSONHandler();
+            weather = jsonHandler.JSONWeatherHandler(jsonObject);
+            updateView(weather);
+        }  catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void fetchForecastData(){
         String forecastUrl = dataService.getForecastWeatherData(bundle.getDouble("lat"),bundle.getDouble("lon"));
 
         try {
@@ -100,26 +123,25 @@ public class DetailsFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewId);
+    }
+    public void setAdapter(){
         adapter = new WeatherRecyclerAdapter(locations);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(manager);
         adapter.notifyDataSetChanged();
 
-        return view;
     }
-
-    public void updateListView(){
-        if (bundle != null){
-            current_temp.setText(bundle.getString("temp","5"));
-            maxTempDetailTxt.setText(bundle.getString("maxTemp","5"));
-            minTempDetailTxt.setText(bundle.getString("minTemp","5"));
-            humidityValueTxt.setText(bundle.getString("humidity","5"));
-            windValueTxt.setText(bundle.getString("wind","5"));
-            city_nameTxt.setText(bundle.getString("city","Current City"));
-
-        }
+    public void setFields(View view){
+        city_nameTxt = (TextView) view.findViewById(R.id.cityNameDetailId);
+        maxTempDetailTxt = (TextView) view.findViewById(R.id.detailsMaxTempId);
+        minTempDetailTxt = (TextView) view.findViewById(R.id.detailsMinTempId);
+        humidityValueTxt = (TextView) view.findViewById(R.id.humidityValueId);
+        windValueTxt = (TextView) view.findViewById(R.id.windValueId);
+        rainValueTxt = (TextView) view.findViewById(R.id.rainValueId);
+        current_temp = (TextView) view.findViewById(R.id.currentTempDetailId);
+        button = (ImageButton) view.findViewById(R.id.BackToMainBtnId);
+        todayDetailImg = (ImageView) view.findViewById(R.id.detailsImgId);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewId);
     }
 }

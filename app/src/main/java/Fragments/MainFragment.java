@@ -123,7 +123,6 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         dbHelper = new DBHelper(getActivity());
         dataService = new DataService();
 
-
         setLocationChangeAction();
         getLastKnownLocation();
 
@@ -136,6 +135,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
 
         getCurrentLocation();
 
+        // region ButtonClicks
         weatherList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -174,6 +174,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
                 transaction.commit();
             }
         });
+        // endregion
 
         searchView.setOnQueryTextListener(this);
         return view;
