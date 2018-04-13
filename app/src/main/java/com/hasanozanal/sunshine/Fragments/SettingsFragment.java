@@ -37,7 +37,12 @@ public class SettingsFragment extends Fragment {
         aSwitch = (Switch) view.findViewById(R.id.settings_fragment_switch_btn);
         saveBtn = (TextView) view.findViewById(R.id.fragment_settings_savebtn);
 
-
+        SharedPreferences preferences = getActivity().getSharedPreferences("switch",0);
+        if (preferences.getBoolean("Celcius",true)){
+            aSwitch.setChecked(true);
+        }else{
+            aSwitch.setChecked(false);
+        }
 
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
