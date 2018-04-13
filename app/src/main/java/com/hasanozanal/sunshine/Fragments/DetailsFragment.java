@@ -1,5 +1,7 @@
 package com.hasanozanal.sunshine.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -103,7 +105,14 @@ public class DetailsFragment extends Fragment {
         }
     }
     public void fetchWeatherData(){
-        String weatherUrl = dataService.getCurrentWeatherData(bundle.getDouble("lat"),bundle.getDouble("lon"));
+        SharedPreferences preferences = getActivity().getSharedPreferences("switch", Context.MODE_PRIVATE);
+        String unit;
+        if (preferences.getBoolean("Celcius",true)){
+            unit = "&units=metric";
+        }else {
+            unit = "&units=imperial";
+        }
+        String weatherUrl = dataService.getCurrentWeatherData(bundle.getDouble("lat"),bundle.getDouble("lon"),unit);
         try {
             jsonObject = new JSONObject(weatherUrl);
             jsonHandler = new JSONHandler();

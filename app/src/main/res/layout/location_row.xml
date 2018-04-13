@@ -25,7 +25,7 @@
 
         <TextView
             android:id="@+id/list_row_tempId"
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_alignBaseline="@+id/list_row_minTempId"
             android:layout_alignBottom="@+id/list_row_minTempId"
@@ -37,7 +37,7 @@
 
         <TextView
             android:id="@+id/list_row_minTempId"
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="24dp"

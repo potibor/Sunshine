@@ -1,5 +1,11 @@
 package com.hasanozanal.sunshine.Data;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,8 +19,6 @@ public class DataProvider {
     private static final String BASE_URL_FORECAST = "http://api.openweathermap.org/data/2.5/forecast";
     private static final String ICON_URL = "http://openweathermap.org/img/w/";
     private static final String COORD_URL = "?lat=";
-    private static final String METRIC_UNITS_URL = "&units=metric";
-    private static final String IMPERIAL_UNITS_URL = "&units=imperial";
     private static final String API_KEY_URL = "&APPID=5b13dba51fd0bc9b13f8abf71735df4d";
 
     public static JSONObject getObject(String tagName, JSONObject jsonObject) throws JSONException {
@@ -34,18 +38,20 @@ public class DataProvider {
         return jsonObject.getInt(tagName);
     }
 
-    public static String createWeatherUrl(Double lat, Double lon) {
-        String fullUrl = BASE_URL_WEATHER + COORD_URL + lat + "&lon=" + lon + API_KEY_URL;
-        return fullUrl;
+    public static String createWeatherUrl(Double lat, Double lon,String unit) {
+        String Url = BASE_URL_WEATHER + COORD_URL + lat + "&lon=" + lon + API_KEY_URL + unit;
+        return Url;
+
     }
 
     public static String createForecastUrl(Double lat, Double lon) {
-        String fullUrl = BASE_URL_FORECAST + COORD_URL + lat + "&lon=" + lon + API_KEY_URL;
-        return fullUrl;
+        String Url = BASE_URL_FORECAST + COORD_URL + lat + "&lon=" + lon + API_KEY_URL;
+        return Url;
     }
     public static String createImageUrl(String code){
         String fullUrl = ICON_URL + code + ".png";
         return fullUrl;
     }
+
 }
 

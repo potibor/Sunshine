@@ -19,9 +19,9 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class DataService {
-    public  String getCurrentWeatherData(Double lat,Double lon){
+    public  String getCurrentWeatherData(Double lat,Double lon,String unit){
         try {
-            return new JsonTask().execute(DataProvider.createWeatherUrl(lat,lon)).get();
+            return new JsonTask().execute(DataProvider.createWeatherUrl(lat,lon,unit)).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

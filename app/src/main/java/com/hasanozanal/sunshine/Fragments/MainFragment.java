@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -26,19 +27,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.hasanozanal.sunshine.R;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import com.hasanozanal.sunshine.Data.DataService;
 import com.hasanozanal.sunshine.Data.JSONHandler;
 import com.hasanozanal.sunshine.Helpers.DBHelper;
@@ -72,11 +69,12 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     private ImageView list_image_View;
     private ImageButton addLocationBtn;
     private ImageButton webViewBtn;
+    private ImageButton settingsBtn;
     private ListView weatherList;
     private SearchView searchView;
-
+    private String unit;
     //endregion
-
+    // region Instances
     private Weather weather;
     private DBHelper dbHelper;
     private JSONHandler jsonHandler;
@@ -87,6 +85,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     private ArrayList<Weather> locations;
     private WeatherAdapter weatherAdapter;
     private DetailsFragment detailsFragment = new DetailsFragment();
+    // endregion
 
     public MainFragment() {
     }
@@ -109,6 +108,12 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         setFields(view);
+        SharedPreferences preferences = getActivity().getSharedPreferences("switch",0);
+        if (preferences.getBoolean("Celcius",true)){
+            unit = "&units=metric";
+        }else{
+            unit = "&units=imperial";
+        }
 
         dbHelper = new DBHelper(getActivity());
         dataService = new DataService();
@@ -121,8 +126,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         weatherList.setAdapter(weatherAdapter);
         weatherAdapter.notifyDataSetChanged();
         index = 0;
-        request();
-
+        requestForListView();
         getCurrentLocation();
 
         // region ButtonClicks
@@ -161,6 +165,16 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
                 WebViewFragment webViewFragment = new WebViewFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_containerId, webViewFragment).addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsFragment settingsFragment = new SettingsFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_containerId,settingsFragment).addToBackStack(null);
                 transaction.commit();
             }
         });
@@ -232,7 +246,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 mLocation = locationResult.getLastLocation();
-                String weatherUrl = dataService.getCurrentWeatherData(mLocation.getLatitude(),mLocation.getLongitude());
+                String weatherUrl = dataService.getCurrentWeatherData(mLocation.getLatitude(),mLocation.getLongitude(),unit);
                 try {
                     jsonObject = new JSONObject(weatherUrl);
                     jsonHandler = new JSONHandler();
@@ -245,11 +259,11 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         };
     }
 
-    public void request() {
+    public void requestForListView() {
         if (locations.size() == 0){
             return;
         }
-        String weatherURl = dataService.getCurrentWeatherData(locations.get(index).getLat(),locations.get(index).getLon());
+        String weatherURl = dataService.getCurrentWeatherData(locations.get(index).getLat(),locations.get(index).getLon(),unit);
         try {
             jsonObject = new JSONObject(weatherURl);
             jsonHandler = new JSONHandler();
@@ -258,7 +272,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
             index ++;
 
             if(index < locations.size())
-                request();
+                requestForListView();
             else
                 weatherAdapter.notifyDataSetChanged();
         }  catch (JSONException e) {
@@ -336,8 +350,9 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     }
 
     public void setFields(View view){
-
         addLocationBtn = (ImageButton) view.findViewById(R.id.addLocationBtnId);
+        webViewBtn = (ImageButton) view.findViewById(R.id.QuestionMarkBtnId);
+        settingsBtn = (ImageButton) view.findViewById(R.id.fragment_main_settings_btn);
         currentDateTxt = (TextView) view.findViewById(R.id.currentDateId);
         maxTempTxt = (TextView) view.findViewById(R.id.max_tempTextId);
         minTempTxt = (TextView) view.findViewById(R.id.min_tempTxtId);
@@ -347,7 +362,6 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         weatherList = (ListView) view.findViewById(R.id.listviewId);
         searchView = (SearchView) view.findViewById(R.id.searchViewId);
         list_image_View = (ImageView) view.findViewById(R.id.list_row_weatherImgId);
-        webViewBtn = (ImageButton) view.findViewById(R.id.QuestionMarkBtnId);
     }
 
     @Override
