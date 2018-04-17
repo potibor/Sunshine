@@ -1,4 +1,4 @@
-package com.hasanozanal.sunshine.Model;
+package com.hasanozanal.sunshine.Adapters;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hasanozanal.sunshine.Model.Weather;
 import com.hasanozanal.sunshine.R;
 
 import java.util.ArrayList;

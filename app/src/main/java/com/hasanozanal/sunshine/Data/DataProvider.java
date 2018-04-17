@@ -44,8 +44,8 @@ public class DataProvider {
 
     }
 
-    public static String createForecastUrl(Double lat, Double lon) {
-        String Url = BASE_URL_FORECAST + COORD_URL + lat + "&lon=" + lon + API_KEY_URL;
+    public static String createForecastUrl(Double lat, Double lon,String unit) {
+        String Url = BASE_URL_FORECAST + COORD_URL + lat + "&lon=" + lon + API_KEY_URL + unit;
         return Url;
     }
     public static String createImageUrl(String code){

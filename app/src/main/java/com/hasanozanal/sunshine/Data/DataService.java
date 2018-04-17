@@ -29,9 +29,9 @@ public class DataService {
         }
         return "";
     }
-    public  String getForecastWeatherData(Double lat,Double lon){
+    public  String getForecastWeatherData(Double lat,Double lon,String unit){
         try {
-            return new JsonTask().execute(DataProvider.createForecastUrl(lat,lon)).get();
+            return new JsonTask().execute(DataProvider.createForecastUrl(lat,lon,unit)).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

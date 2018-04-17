@@ -2,6 +2,7 @@ package com.hasanozanal.sunshine.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,9 +16,13 @@ import android.widget.TextView;
 
 import com.hasanozanal.sunshine.R;
 
+import java.util.Locale;
+
 public class SettingsFragment extends Fragment {
     private Switch aSwitch;
     private TextView saveBtn;
+    private Button languageBtn;
+
     public SettingsFragment() {
     }
     public static SettingsFragment newInstance(String param1, String param2) {
@@ -28,6 +33,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LoadLocale();
     }
 
     @Override
@@ -36,6 +42,7 @@ public class SettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         aSwitch = (Switch) view.findViewById(R.id.settings_fragment_switch_btn);
         saveBtn = (TextView) view.findViewById(R.id.fragment_settings_savebtn);
+        languageBtn = (Button) view.findViewById(R.id.settings_fragment_language_btn);
 
         SharedPreferences preferences = getActivity().getSharedPreferences("switch",0);
         if (preferences.getBoolean("Celcius",true)){
@@ -43,7 +50,6 @@ public class SettingsFragment extends Fragment {
         }else{
             aSwitch.setChecked(false);
         }
-
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -68,7 +74,23 @@ public class SettingsFragment extends Fragment {
                 transaction.commit();
             }
         });
-
         return view;
+    }
+
+
+    private void setLocale(String lang) {
+        Configuration configuration = new Configuration();
+        lang = Locale.getDefault().getDisplayLanguage();
+        getContext().getResources().updateConfiguration(configuration,getContext().getResources().getDisplayMetrics());
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Settings",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("lang",lang);
+        editor.apply();
+    }
+    public void LoadLocale(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Settings",Context.MODE_PRIVATE);
+        String language = sharedPreferences.getString("lang","");
+        setLocale(language);
     }
 }

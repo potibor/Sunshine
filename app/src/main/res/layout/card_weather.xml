@@ -25,14 +25,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
-                android:text="Tomorrow"
+                android:text="@string/card_weather_day"
                 android:textColor="#595959"/>
             <TextView
                 android:id="@+id/descriptionCardId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:text="Clear"
+                android:text="@string/card_weather_description"
                 android:textColor="#595959"/>
 
         </LinearLayout>

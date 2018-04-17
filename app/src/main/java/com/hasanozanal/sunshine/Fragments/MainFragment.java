@@ -18,10 +18,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -32,15 +34,24 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.hasanozanal.sunshine.Data.Api;
 import com.hasanozanal.sunshine.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.List;
+
 import com.hasanozanal.sunshine.Data.DataService;
 import com.hasanozanal.sunshine.Data.JSONHandler;
 import com.hasanozanal.sunshine.Helpers.DBHelper;
 import com.hasanozanal.sunshine.Model.Weather;
-import com.hasanozanal.sunshine.Model.WeatherAdapter;
+import com.hasanozanal.sunshine.Adapters.WeatherAdapter;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainFragment extends Fragment implements LocationListener,SearchView.OnQueryTextListener {
 
@@ -69,7 +80,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     private ImageView list_image_View;
     private ImageButton addLocationBtn;
     private ImageButton webViewBtn;
-    private ImageButton settingsBtn;
+    private Button settingsBtn;
     private ListView weatherList;
     private SearchView searchView;
     private String unit;
@@ -85,6 +96,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     private ArrayList<Weather> locations;
     private WeatherAdapter weatherAdapter;
     private DetailsFragment detailsFragment = new DetailsFragment();
+    private Api api;
     // endregion
 
     public MainFragment() {
@@ -100,7 +112,6 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rateDialog();
     }
 
     @Override
@@ -108,12 +119,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         setFields(view);
-        SharedPreferences preferences = getActivity().getSharedPreferences("switch",0);
-        if (preferences.getBoolean("Celcius",true)){
-            unit = "&units=metric";
-        }else{
-            unit = "&units=imperial";
-        }
+        SharedPreferences();
 
         dbHelper = new DBHelper(getActivity());
         dataService = new DataService();
@@ -256,9 +262,10 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
                     e.printStackTrace();
                 }
             }
+
+
         };
     }
-
     public void requestForListView() {
         if (locations.size() == 0){
             return;
@@ -352,7 +359,7 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
     public void setFields(View view){
         addLocationBtn = (ImageButton) view.findViewById(R.id.addLocationBtnId);
         webViewBtn = (ImageButton) view.findViewById(R.id.QuestionMarkBtnId);
-        settingsBtn = (ImageButton) view.findViewById(R.id.fragment_main_settings_btn);
+        settingsBtn = (Button) view.findViewById(R.id.fragment_main_settings_btn);
         currentDateTxt = (TextView) view.findViewById(R.id.currentDateId);
         maxTempTxt = (TextView) view.findViewById(R.id.max_tempTextId);
         minTempTxt = (TextView) view.findViewById(R.id.min_tempTxtId);
@@ -387,5 +394,14 @@ public class MainFragment extends Fragment implements LocationListener,SearchVie
         ratingDialog.setContentView(R.layout.custom_popup);
         ratingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         ratingDialog.show();
+    }
+
+    public void SharedPreferences(){
+        SharedPreferences preferences = getActivity().getSharedPreferences("switch",0);
+        if (preferences.getBoolean("Celcius",true)){
+            unit = "&units=metric";
+        }else{
+            unit = "&units=imperial";
+        }
     }
 }

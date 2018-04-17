@@ -1,6 +1,8 @@
 package com.hasanozanal.sunshine.Model;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,20 +14,35 @@ import java.util.GregorianCalendar;
 
 public class Weather {
 
+    @SerializedName("temp_max")
     private int max_tempTxt;
+    @SerializedName("temp_min")
     private int min_tempTxt;
+    @SerializedName("temp")
     private int current_temp;
+    @SerializedName("name")
     private String city_nameTxt;
+    @SerializedName("country")
     private String country_nameTxt;
+    @SerializedName("main")
     private String descriptionTxt;
+    @SerializedName("dt")
     private String date;
+    @SerializedName("temp_max")
     private String forecastDate;
+    @SerializedName("lat")
     private Double lat;
+    @SerializedName("lon")
     private Double lon;
+    @SerializedName("speed")
     private String windSpeedTxt;
+    @SerializedName("deg")
     private String windDegTxt;
+    @SerializedName("humidity")
     private String humidity;
+    @SerializedName("id")
     private int ItemId;
+    @SerializedName("icon")
     private String weatherIcon;
 
     public Weather() {

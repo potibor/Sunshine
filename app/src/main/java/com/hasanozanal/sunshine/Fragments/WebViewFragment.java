@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.hasanozanal.sunshine.R;
 
@@ -27,8 +28,9 @@ public class WebViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_web_view, container, false);
+        String url = "mypage.html";
         WebView wv = (WebView) view.findViewById(R.id.the_webview);
-        wv.loadUrl("http://www.hasanozanal.com");
+        wv.loadUrl(url);
         return view;
     }
 }

@@ -22,7 +22,7 @@ import com.hasanozanal.sunshine.Data.DataService;
 import com.hasanozanal.sunshine.Data.JSONHandler;
 import com.hasanozanal.sunshine.Helpers.DBHelper;
 import com.hasanozanal.sunshine.Model.Weather;
-import com.hasanozanal.sunshine.Model.WeatherRecyclerAdapter;
+import com.hasanozanal.sunshine.Adapters.WeatherRecyclerAdapter;
 
 public class DetailsFragment extends Fragment {
 
@@ -47,6 +47,7 @@ public class DetailsFragment extends Fragment {
     private ImageView todayDetailImg;
     private ImageButton button;
     private RecyclerView recyclerView;
+    private String unit;
 
     public DetailsFragment() {
     }
@@ -64,6 +65,7 @@ public class DetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
         setFields(view);
+        Preferences();
 
         // region ButtonClick
         button.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +125,7 @@ public class DetailsFragment extends Fragment {
         }
     }
     public void fetchForecastData(){
-        String forecastUrl = dataService.getForecastWeatherData(bundle.getDouble("lat"),bundle.getDouble("lon"));
+        String forecastUrl = dataService.getForecastWeatherData(bundle.getDouble("lat"),bundle.getDouble("lon"),unit);
 
         try {
             jsonObject = new JSONObject(forecastUrl);
@@ -152,5 +154,13 @@ public class DetailsFragment extends Fragment {
         button = (ImageButton) view.findViewById(R.id.BackToMainBtnId);
         todayDetailImg = (ImageView) view.findViewById(R.id.detailsImgId);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewId);
+    }
+    public void Preferences(){
+        SharedPreferences preferences = getActivity().getSharedPreferences("switch",0);
+        if (preferences.getBoolean("Celcius",true)){
+            unit = "&units=metric";
+        }else{
+            unit = "&units=imperial";
+        }
     }
 }

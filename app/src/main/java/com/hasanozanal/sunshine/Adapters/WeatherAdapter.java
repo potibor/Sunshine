@@ -1,4 +1,4 @@
-package com.hasanozanal.sunshine.Model;
+package com.hasanozanal.sunshine.Adapters;
 
 
 import android.app.Activity;
@@ -13,6 +13,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hasanozanal.sunshine.Model.Weather;
 import com.hasanozanal.sunshine.R;
 
 import java.util.ArrayList;
